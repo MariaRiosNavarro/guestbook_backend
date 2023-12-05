@@ -2,12 +2,14 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
-import { getAllUsers, saveUserComment } from "./utils/filestorage.js";
+import { setup, getAllUsers, saveUserComment } from "./utils/filestorage.js";
 
 //config
 
 const app = express();
 app.use(express.json());
+
+setup();
 
 //dotenv
 
@@ -38,7 +40,8 @@ app.get("/api/users", (req, res) => {
 app.post("/api/users", (req, res) => {
   let user = req.body;
   saveUserComment(user);
-  console.log(user);
+  console.log("-----👉-------👉----user👉", user);
+  res.end();
 });
 
 //listen
