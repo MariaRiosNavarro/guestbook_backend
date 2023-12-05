@@ -54,7 +54,8 @@ app.get("/api/users", (req, res) => {
 app.post("/api/users", (req, res) => {
   console.log("-----👉-------👉----BODY👉", req.body);
   let user = req.body;
-  // VALIDATION
+
+  // !VALIDATION
 
   const { error, value } = userSchema.validate(user);
   if (error) {
@@ -63,8 +64,10 @@ app.post("/api/users", (req, res) => {
     return;
   }
   user = value;
-  //   save user after validation
+
+  //!   save user after validation
   saveUserComment(user);
+
   res.json({ message: "Received the data successfully!" });
   res.end();
 });
