@@ -12,8 +12,11 @@ export const setup = () => {
 
 //! Save a user with comment
 
-export const saveUserComment = (user) => {
+export const saveUserComment = (
+  user = { firstname: "", lastname: "", email: "", text: "", bonus: false }
+) => {
   user.id = uuidv4();
+  user.bonus = "false";
   const filePath = "./storage/" + user.id;
   fs.writeFile(filePath, JSON.stringify(user), (error) => {
     if (error) {

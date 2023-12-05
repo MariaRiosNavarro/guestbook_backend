@@ -3,6 +3,20 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 import { setup, getAllUsers, saveUserComment } from "./utils/filestorage.js";
+//# 1-VALIDATION
+import Joi from "joi";
+
+//# 2-Create Schema
+
+const userSchema = Joi.object({
+  firstname: Joi.string().alphanum().min(3).max(10).trim().required(),
+  lastname: Joi.string().trim(),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net", "de", "es", "it"] },
+  }),
+  text: Joi.string(),
+});
 
 //config
 
@@ -38,9 +52,20 @@ app.get("/api/users", (req, res) => {
 //!POST
 
 app.post("/api/users", (req, res) => {
+  console.log("-----👉-------👉----BODY👉", req.body);
   let user = req.body;
+  // VALIDATION
+
+  const { error, value } = userSchema.validate(user);
+  if (error) {
+    console.log(error.message);
+    res.status(418).json({ message: error.message });
+    return;
+  }
+  user = value;
+  //   save user after validation
   saveUserComment(user);
-  console.log("-----👉-------👉----user👉", user);
+  res.json({ message: "Received the data successfully!" });
   res.end();
 });
 

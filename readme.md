@@ -1,6 +1,6 @@
 # Guestbook server, db, & api
 
-## install
+## install basic
 
 npm init -y
 
@@ -13,3 +13,7 @@ npm i cors
 npm i uuid
 
 npm install dotenv
+
+## install validation
+
+npm i joi
