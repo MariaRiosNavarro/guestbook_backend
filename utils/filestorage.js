@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import fsystem from "fs";
 import { v4 as uuidv4 } from "uuid";
-import { off } from "process";
 
 //!create storage folder
 
@@ -37,4 +36,10 @@ export const getAllUsers = () => {
     }
     return usersArray;
   });
+};
+
+// ! delete user
+
+export const deleteUser = (id) => {
+  return fs.rm("/storage/" + id);
 };
