@@ -21,13 +21,7 @@ fs.access(DBPATH)
 //! Save a user with comment
 
 export const saveUserComment = (user) => {
-  fs.writeFile(DBPATH + user.id, JSON.stringify(user), (error) => {
-    if (error) {
-      console.error("Error saving user", error);
-    } else {
-      console.log("User saved successfully", filePath);
-    }
-  });
+  fs.writeFile(DBPATH + user.id, JSON.stringify(user));
 };
 
 //!create one Array with all Users with his comments
@@ -47,9 +41,7 @@ export const getAllUsers = () => {
 //! get One User
 
 export const getOneUser = (id) => {
-  return fs
-    .readFile("./storage/" + id)
-    .then((data) => JSON.parse(data.toString()));
+  return fs.readFile(DBPATH + id).then((data) => JSON.parse(data));
 };
 
 // ! delete user
@@ -62,12 +54,21 @@ export const deleteUser = (id) => {
 
 //!edit Blog
 
-export const editBlog = (article_update) => {
-  return getOneUser(article_update.id)
-    .then(
-      (old_article) => (old_article = { ...old_article, ...article_update })
-    )
-    .then((newArticle) =>
-      fs.writeFile("./storage/" + newArticle.id, JSON.stringify(newArticle))
+export const editUser = (item) => {
+  return fs
+    .readFile(DBPATH + item.id)
+    .then((data) => JSON.parse(data))
+    .then((oldItem) => {
+      if (item.img) deleteItem(oldItem.img);
+      return oldItem;
+    })
+    .then((oldItem) =>
+      fs.writeFile(DBPATH + item.id, JSON.stringify({ ...oldItem, ...item }))
     );
+};
+
+//!delete anything in server with the path
+
+const deleteItem = (path) => {
+  return fs.rm("./" + path);
 };

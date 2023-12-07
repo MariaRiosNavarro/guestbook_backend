@@ -7,7 +7,7 @@ import {
   getAllUsers,
   saveUserComment,
   deleteUser,
-  editBlog,
+  editUser,
   getOneUser,
 } from "./utils/filestorage.js";
 //# 1-VALIDATION
@@ -40,6 +40,8 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 //für die img brauchen es damit expreaa das liefert
+//wir geben diese rute frei, um die bilder zu zeigen in frontend,
+//  wenn wir die bilder anderswo speichern, dann mussten diese ordner auch mit static geben
 app.use("/uploads", express.static("./uploads"));
 
 //cors
@@ -50,12 +52,24 @@ app.use(cors());
 
 //!ROUTES
 
-// #GET
+// #GET ALL
 
 app.get("/api/users", (req, res) => {
   getAllUsers()
     .then((data) => res.json(data))
     .catch(() => {
+      res.status(500).end();
+    });
+});
+
+// #GET ONE
+
+app.get("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  getOneUser(id)
+    .then((data) => res.json(data))
+    .catch((err) => {
+      console.log(err);
       res.status(500).end();
     });
 });
@@ -74,6 +88,21 @@ app.post("/api/users", upload.single("img"), (req, res) => {
       res.status(500).end();
     });
 });
+
+// #PUT
+
+app.put("/api/users", upload.single("img"), (req, res) => {
+  const editData = req.body;
+  if (req.file) {
+    editData.img = req.file.path;
+  }
+
+  editUser(editData)
+    .then(() => res.end())
+    .catch(() => res.status(500).end());
+});
+
+// #PATCH
 
 //#DELETE
 app.delete("/api/users", (req, res) => {
