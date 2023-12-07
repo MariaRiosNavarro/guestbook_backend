@@ -19,3 +19,7 @@ npm install dotenv
 ## install validation
 
 npm i joi
+
+## parser
+
+npm i multer
