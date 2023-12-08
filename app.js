@@ -102,6 +102,15 @@ app.post("/api/users", upload.single("img"), (req, res) => {
 
 app.put("/api/users", upload.single("img"), (req, res) => {
   const editData = req.body;
+
+  const { error, value } = userSchema.validate(editData);
+
+  if (error) {
+    console.log("validation error_________❌", error.message);
+    res.status(418).json({ message: error.message });
+    return;
+  }
+
   if (req.file) {
     editData.img = req.file.path;
   }

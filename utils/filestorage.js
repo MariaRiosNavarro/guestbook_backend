@@ -48,8 +48,15 @@ export const getOneUser = (id) => {
 
 export const deleteUser = (id) => {
   return getOneUser(id)
-    .then((user) => fs.rm(user.img))
-    .then(() => fs.rm(DBPATH + id));
+    .then((user) => {
+      if (user.img) {
+        return fs.rm(user.img);
+      }
+    })
+    .then(() => fs.rm(DBPATH + id))
+    .catch((error) => {
+      console.error("Error deleting user:", error);
+    });
 };
 
 //!edit Blog

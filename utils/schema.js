@@ -8,6 +8,6 @@ export const userSchema = Joi.object({
     tlds: { allow: ["com", "net", "de", "es", "it"] },
   }),
   text: Joi.string(),
-  //   id: Joi.string(),
+  id: Joi.string(),
   //   img: Joi.string(),
 });
