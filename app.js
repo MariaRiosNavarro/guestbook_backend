@@ -46,7 +46,7 @@ const PORT = process.env.PORT;
 app.use("/uploads", express.static("./uploads"));
 
 //cors
-
+// change cors
 // app.use(cors({origin: process.env.CORS_ORIGIN}))
 
 app.use(cors());
