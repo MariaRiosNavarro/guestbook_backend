@@ -49,7 +49,7 @@ export const getOneUser = (id) => {
 export const deleteUser = (id) => {
   return getOneUser(id)
     .then((user) => fs.rm(user.img))
-    .then(() => fs.rm("./storage" + id));
+    .then(() => fs.rm(DBPATH + id));
 };
 
 //!edit Blog

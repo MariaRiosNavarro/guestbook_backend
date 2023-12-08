@@ -103,16 +103,16 @@ app.put("/api/users", upload.single("img"), (req, res) => {
     .catch(() => res.status(500).end());
 });
 
-// #PATCH
-
 //#DELETE
-app.delete("/api/users", (req, res) => {
-  res.end();
-});
+app.delete("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  console.log("--------❌", req);
+  console.log("--------👉", id);
 
-//#UPDATE
-app.put("/api/users", (req, res) => {
-  res.end();
+  deleteUser(id)
+    .then(() => res.json({ message: "Article deleted successfully!" }))
+    .then(() => res.end())
+    .catch((error) => res.status(500).end(error));
 });
 
 //listen
