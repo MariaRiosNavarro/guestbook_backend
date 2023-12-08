@@ -85,7 +85,10 @@ app.post("/api/users", upload.single("img"), (req, res) => {
 
   item = value;
   item.id = uuidv4();
-  item.img = req.file.path;
+
+  if (req.file) {
+    item.img = req.file.path;
+  }
 
   saveUserComment(item)
     .then(() => res.status(201).end())
