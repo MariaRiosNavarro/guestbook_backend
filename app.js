@@ -12,6 +12,7 @@ import {
   getOneUser,
 } from "./utils/filestorage.js";
 //# 1-VALIDATION
+import { userSchema } from "./utils/schema.js";
 import Joi from "joi";
 
 //# 2-Create Schema
@@ -24,22 +25,23 @@ const app = express();
 //multer
 const upload = multer({ dest: "./uploads" });
 
-//dotenv, brauchen kein dotenv.config(), wenn wir direct import "dotenv/config" schreiben
+//dotenv: do not need dotenv.config() here, if we write direct above: import "dotenv/config"
 
 // dotenv.config();
 
 const PORT = process.env.PORT;
 
-//für die img brauchen es damit expreaa das liefert
-//wir geben diese rute frei, um die bilder zu zeigen in frontend,
-//  wenn wir die bilder anderswo speichern, dann mussten diese ordner auch mit static geben
+//for the img you need expreaa to deliver it
+//we release this route to show the images in frontend,
+//if we store the images elsewhere, then these folders must also be given with static
 app.use("/uploads", express.static("./uploads"));
 
 //cors
 // change cors
-// app.use(cors({origin: process.env.CORS_ORIGIN}))
 
-app.use(cors());
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
+
+// app.use(cors());
 
 //!ROUTES
 
@@ -68,10 +70,23 @@ app.get("/api/users/:id", (req, res) => {
 //#POST
 
 app.post("/api/users", upload.single("img"), (req, res) => {
-  const item = req.body;
+  let item = req.body;
+
+  console.log("-----👉-------👉----BODY👉", item);
+  // joi validation
+
+  const { error, value } = userSchema.validate(item);
+
+  if (error) {
+    console.log("validation error_________❌", error.message);
+    res.status(418).json({ message: error.message });
+    return;
+  }
+
+  item = value;
   item.id = uuidv4();
   item.img = req.file.path;
-  console.log("-----👉-------👉----BODY👉", item);
+
   saveUserComment(item)
     .then(() => res.status(201).end())
     .catch((err) => {
