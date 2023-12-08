@@ -21,7 +21,7 @@ fs.access(DBPATH)
 //! Save a user with comment
 
 export const saveUserComment = (user) => {
-  fs.writeFile(DBPATH + user.id, JSON.stringify(user));
+  return fs.writeFile(DBPATH + user.id, JSON.stringify(user));
 };
 
 //!create one Array with all Users with his comments
