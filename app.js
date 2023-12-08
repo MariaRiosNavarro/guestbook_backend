@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import multer from "multer";
-import dotenv from "dotenv";
+import "dotenv/config";
+// import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 import {
   getAllUsers,
@@ -33,9 +34,9 @@ const app = express();
 //multer
 const upload = multer({ dest: "./uploads" });
 
-//dotenv
+//dotenv, brauchen kein dotenv.config(), wenn wir direct import "dotenv/config" schreiben
 
-dotenv.config();
+// dotenv.config();
 
 const PORT = process.env.PORT;
 
