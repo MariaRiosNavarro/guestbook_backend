@@ -1,4 +1,4 @@
-# Guestbook server, db, & api
+# Guestbook server, db, & api with validation
 
 # [Frontend here](https://github.com/MariaRiosNavarro/guestbook_frontend)
 
