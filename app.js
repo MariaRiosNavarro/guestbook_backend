@@ -71,11 +71,28 @@ app.get("/api/users/:id", (req, res) => {
 
 app.post("/api/users", upload.single("img"), (req, res) => {
   let item = req.body;
+  // if (req.file) {
+  //   console.log("validation file________🌸", req.file);
+  //   console.log("validation path_________✌️", req.file.path);
+  //   item.img = req.file.path;
+  // }
   if (req.file) {
     console.log("validation file________🌸", req.file);
-    console.log("validation path_________✌️", req.file.path);
+
+    // Extracción de la extensión del nombre del archivo
+    const fileExtension = req.file.originalname.split(".").pop().toLowerCase();
+    console.log("File extension_________📸", fileExtension);
+
+    // Comprobación de la extensión del archivo
+    const allowedExtensions = ["jpg", "jpeg", "png"];
+    if (!allowedExtensions.includes(fileExtension)) {
+      res.status(418).json({ message: "Invalid file extension" });
+      return;
+    }
+
     item.img = req.file.path;
   }
+
   console.log("-----👉-------👉----BODY👉", item);
   // joi validation
 

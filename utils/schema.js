@@ -9,16 +9,5 @@ export const userSchema = Joi.object({
   }),
   text: Joi.string(),
   id: Joi.string(),
-  img: Joi.string().custom((value, helpers) => {
-    //  Check file extension
-    const allowedExtensions = ["jpg", "jpeg", "png"];
-    const fileExtension = value.split(".").pop().toLowerCase();
-
-    if (!allowedExtensions.includes(fileExtension)) {
-      return helpers.error("any.invalid");
-    }
-
-    // If the extension is valid, return the value
-    return value;
-  }, "Custom validation for image extension"),
+  img: Joi.string(),
 });
