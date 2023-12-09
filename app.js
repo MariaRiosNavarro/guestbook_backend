@@ -100,8 +100,15 @@ app.post("/api/users", upload.single("img"), (req, res) => {
 
 // #PUT
 
+// #PUT
+
 app.put("/api/users", upload.single("img"), (req, res) => {
-  const editData = req.body;
+  let editData = req.body;
+  if (req.file) {
+    editData.img = req.file.path;
+  }
+
+  console.log("-------------🤡", req.body);
 
   const { error, value } = userSchema.validate(editData);
 
@@ -111,9 +118,12 @@ app.put("/api/users", upload.single("img"), (req, res) => {
     return;
   }
 
-  if (req.file) {
-    editData.img = req.file.path;
-  }
+  // if (req.file) {
+  //   editData.img = req.file.path;
+  // }
+
+  editData = value;
+  console.log("------editdata after val-------😬", editData);
 
   editUser(editData)
     .then(() => res.end())
