@@ -9,5 +9,5 @@ export const userSchema = Joi.object({
   }),
   text: Joi.string(),
   id: Joi.string(),
-  // img: Joi.string(),
+  img: Joi.string(),
 });

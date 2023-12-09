@@ -87,6 +87,9 @@ app.post("/api/users", upload.single("img"), (req, res) => {
   item.id = uuidv4();
 
   if (req.file) {
+    console.log("validation file________🌸", req.file);
+    console.log("validation path_________✌️", req.file.path);
+
     item.img = req.file.path;
   }
 
