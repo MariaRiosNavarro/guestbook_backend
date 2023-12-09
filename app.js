@@ -71,7 +71,11 @@ app.get("/api/users/:id", (req, res) => {
 
 app.post("/api/users", upload.single("img"), (req, res) => {
   let item = req.body;
-
+  if (req.file) {
+    console.log("validation file________🌸", req.file);
+    console.log("validation path_________✌️", req.file.path);
+    item.img = req.file.path;
+  }
   console.log("-----👉-------👉----BODY👉", item);
   // joi validation
 
@@ -86,12 +90,7 @@ app.post("/api/users", upload.single("img"), (req, res) => {
   item = value;
   item.id = uuidv4();
 
-  if (req.file) {
-    console.log("validation file________🌸", req.file);
-    console.log("validation path_________✌️", req.file.path);
-
-    item.img = req.file.path;
-  }
+  console.log("---------------after val--✅", item);
 
   saveUserComment(item)
     .then(() => res.status(201).end())
@@ -103,15 +102,13 @@ app.post("/api/users", upload.single("img"), (req, res) => {
 
 // #PUT
 
-// #PUT
-
 app.put("/api/users", upload.single("img"), (req, res) => {
   let editData = req.body;
   if (req.file) {
     editData.img = req.file.path;
   }
 
-  console.log("-------------🤡", req.body);
+  console.log("-------------🤡", editData);
 
   const { error, value } = userSchema.validate(editData);
 
@@ -120,10 +117,6 @@ app.put("/api/users", upload.single("img"), (req, res) => {
     res.status(418).json({ message: error.message });
     return;
   }
-
-  // if (req.file) {
-  //   editData.img = req.file.path;
-  // }
 
   editData = value;
   console.log("------editdata after val-------😬", editData);
