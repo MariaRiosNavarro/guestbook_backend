@@ -75,11 +75,9 @@ app.post("/api/users", upload.single("img"), (req, res) => {
   if (req.file) {
     console.log("validation file________🌸", req.file);
 
-    // Extracción de la extensión del nombre del archivo
     const fileExtension = req.file.originalname.split(".").pop().toLowerCase();
     console.log("File extension_________📸", fileExtension);
 
-    // Comprobación de la extensión del archivo
     const allowedExtensions = ["jpg", "jpeg", "png"];
     if (!allowedExtensions.includes(fileExtension)) {
       res.status(418).json({ message: "Invalid file extension" });
